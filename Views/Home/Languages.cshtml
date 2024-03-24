@@ -1,0 +1,16 @@
+@model Languages
+<h1 class="display-2">Language of Page</h1>
+<div>
+    <form  asp-action="Language">
+        <div class="form-group my-2">
+            <label>Change Language of Page</label>
+            <select asp-for="Language" class="form-control">
+                <option value="English">English</option>
+                <option value="Turkish">Turkish</option>
+            </select>
+        </div>
+    </form>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Accept</a>
+    </div>
+</div>

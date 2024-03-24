@@ -1,0 +1,72 @@
+@model Patient
+<div class="display-6">
+Apply
+</div>
+<form method="post" asp-action="Apply">
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="form-group my-2">
+    <label asp-for="Email"></label>
+    <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group my-2">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control"/>
+     </div>
+    <div class="form-group my-2">
+    <label asp-for="FirstName"></label>
+    <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="form-group my-2">
+    <label asp-for="SecondName">Last Name</label>
+    <input asp-for="SecondName" class="form-control" />
+    </div>
+    <fieldset>
+        <legend>Select Your Age Interval</legend>
+        <p>
+            <input id="<18" type="radio" name="Age" value="18" checked>
+            <label>Less than 18</label>
+            <input id="18-25" type="radio" asp-for="Age" value="1825">
+            <label>18-25</label>
+            <input id="25-35" type="radio" asp-for="Age" value="2535">
+            <label>25-35</label>
+            <input id="35-45" type="radio" asp-for="Age" value="3545">
+            <label>35-45</label>
+            <input id="45-55" type="radio" asp-for="Age" value="4555">
+            <label>45-55</label>
+            <input id=">55" type="radio" asp-for="Age" value="55">
+            <label>More than 55</label>
+        </p>
+    </fieldset>
+    <div class="form-group my-2">
+    <label>Weight</label>
+    <input name="Weight" class="form-control" />
+    </div>
+    <div class="form-group my-2">
+    <label>Height</label>
+    <input name="Height" class="form-control" />
+    </div>
+    <div class="form-group my-2">
+        <label>Blood Type</label>
+        <select asp-for="BloodType" class="form-control">
+        <option value="ORh-">ORh-</option>
+        <option value="ORh+">ORh+</option>
+        <option value="ARh-">ARh-</option>
+        <option value="ARh+">ARh+</option>
+        <option value="BRh-">BRh-</option>
+        <option value="BRh+">BRh+</option>
+        <option value="ABRh-">ABRh-</option>
+        <option value="ABRh+">ABRh+</option>
+        </select>
+    </div>
+    <div class="form-group my-2">
+        <label>Gender</label>
+        <select asp-for="Gender" class="form-control">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        </select>
+    
+    <div>
+        <button class="btn btn-secondary"type="submit">Submit</button>
+        <a class="btn btn-warning" href="/">Home</a>
+    </div>
+</form>
