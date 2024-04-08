@@ -1,0 +1,15 @@
+@model Patient
+<div>
+    <h1 class="display-1">
+        Tebrikler
+    </h1>
+    <blockquote class="blockquote">
+    Başarıyla HealthNCare System'a kaydoldunuz
+    </blockquote>
+    <p>
+        Lütfen giriş yapın @Model.FullName
+    </p>
+    <div class="btn-group">
+        <a class="btn btn-outline-success" asp-action="Index" asp-controller="Home">Geçmiş ve yaklaşan randevular</a><!--href="#"==>asp-action="Index" asp-controller="Home"-->
+    </div>
+</div>

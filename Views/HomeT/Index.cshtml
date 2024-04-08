@@ -1,0 +1,20 @@
+﻿
+<style>
+    </style>
+    <div class="text-center">
+        <h1 style="color: white;" class="display-4">HealthNCare</h1>
+        <div class="container p-5 my-5 bg-light text-info" style="border-radius: 8px;">
+        <p>
+            <a asp-controller="TurkishSelection" asp-action="Location" class="btn btn-secondary">Randevu Oluştur</a><!-- asp-controller viewdeki dosyaya gönderiyor asp-action ise dosyadaki sayfaya gönderiyor-->
+        </p>
+        </div>
+        <div class="container p-5 my-5 bg-info text-white" style="border-radius: 8px;">
+            <p>
+                Geçmiş ve Yaklaşan Randevularınız için tıklayınız
+            </p>
+            <p>
+            <a asp-controller="TurkishTreatment" asp-action="TreatmentShow" class="btn btn-primary">Geçmiş ve Yaklaşan Randevular</a>
+            </p>
+        </div>
+        
+    </div>

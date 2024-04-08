@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 namespace HealthNCare.Controllers{
 
-public class Selection : Controller
+public class TurkishSelection : Controller
 {
     public IActionResult Location()
     {

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HealthNCare.Models;
-
 namespace HealthNCare.Controllers;
 
 public class HomeController : Controller
@@ -22,9 +21,45 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Languages(){
+[HttpGet]
+    public IActionResult Languages()
+    {
         return View();
     }
+
+    [HttpPost]
+    public IActionResult Language(Languages model)
+    {
+        if (ModelState.IsValid)
+        {
+            switch (model.Language)
+            {
+                case "Turkish":
+                    // Redirect to the Turkish page
+                    return RedirectToAction("Index","HomeT");
+                case "English":
+                    // Redirect to the English page
+                    return RedirectToAction("Index","Home");
+                default:
+                    // Handle other languages if needed
+                    break;
+            }
+        }
+
+        // If ModelState is not valid, redirect back to the "Languages" action or view to display errors
+        return RedirectToAction("Languages");
+    }
+
+    public IActionResult TurkishPage()
+    {
+        return View();
+    }
+
+    public IActionResult EnglishPage()
+    {
+        return View();
+    }
+
     public IActionResult Private(){
         return View();
     }

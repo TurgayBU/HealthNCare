@@ -1,6 +1,6 @@
 @model Patient
 <div class="display-6">
-Apply
+Kaydol
 </div>
 <form method="post" asp-action="Apply">
     <div class="text-danger" asp-validation-summary="All"></div>
@@ -9,22 +9,22 @@ Apply
     <input asp-for="Email" class="form-control" />
     </div>
     <div class="form-group my-2">
-        <label asp-for="Password">Password</label>
+        <label asp-for="Password">Şifre</label>
         <input asp-for="Password" class="form-control"/>
      </div>
     <div class="form-group my-2">
-    <label asp-for="FirstName"></label>
+    <label asp-for="FirstName">İsim</label>
     <input asp-for="FirstName" class="form-control" />
     </div>
     <div class="form-group my-2">
-    <label asp-for="SecondName">Last Name</label>
+    <label asp-for="SecondName">Soyisim</label>
     <input asp-for="SecondName" class="form-control" />
     </div>
     <fieldset>
-        <legend>Select Your Age Interval</legend>
+        <legend>Yaş Aralığı Giriniz</legend>
         <p>
             <input id="<18" type="radio" name="Age" value="18" checked>
-            <label>Less than 18</label>
+            <label>18'den küçük</label>
             <input id="18-25" type="radio" asp-for="Age" value="1825">
             <label>18-25</label>
             <input id="25-35" type="radio" asp-for="Age" value="2535">
@@ -34,19 +34,19 @@ Apply
             <input id="45-55" type="radio" asp-for="Age" value="4555">
             <label>45-55</label>
             <input id=">55" type="radio" asp-for="Age" value="55">
-            <label>More than 55</label>
+            <label>55'ten büyük</label>
         </p>
     </fieldset>
     <div class="form-group my-2">
-    <label>Weight</label>
+    <label>Kilo</label>
     <input name="Weight" class="form-control" />
     </div>
     <div class="form-group my-2">
-    <label>Height</label>
+    <label>Boy</label>
     <input name="Height" class="form-control" />
     </div>
     <div class="form-group my-2">
-        <label>Blood Type</label>
+        <label>Kan Grubu</label>
         <select asp-for="BloodType" class="form-control">
         <option value="ORh-">ORh-</option>
         <option value="ORh+">ORh+</option>
@@ -59,14 +59,14 @@ Apply
         </select>
     </div>
     <div class="form-group my-2">
-        <label>Gender</label>
+        <label>Cinsiyet</label>
         <select asp-for="Gender" class="form-control">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
+        <option value="Male">Erkek</option>
+        <option value="Female">Kadın</option>
         </select>
     <br>
     <div>
-        <button class="btn btn-secondary"type="submit">Submit</button>
-        <a class="btn btn-warning" href="/">Home</a>
+        <button class="btn btn-secondary"type="submit">Kaydol</button>
+        <a class="btn btn-warning" href="/">Anasayfa</a>
     </div>
 </form>

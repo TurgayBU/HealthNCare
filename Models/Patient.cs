@@ -4,6 +4,8 @@ namespace HealthNCare.Models
 {
     public class Patient
     {
+        [Key]
+        public int PatientId { get; set; }
         [Required(ErrorMessage ="Please fill the Email")]
          public String? Email { get; set; } = String.Empty;
         [Required(ErrorMessage ="Please enter your First name")]

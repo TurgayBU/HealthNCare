@@ -1,0 +1,21 @@
+@model HealthNCare.Models.DoctorInfo
+<h1 class="display-2">Doktor Bilgileri</h1>
+<div>
+    <form method="post" asp-action="Doctor">
+       <div class="form-group my-2">
+        <label asp-for="DoctorName" class="control-label">Uygun Doktor Seçiniz</label>
+            <select asp-for="DoctorName" class="form-control">
+                <option value="Mehmet Kandemir">Mehmet Kandemir</option>
+                <option value="Mehmet Kaya">Mehmet Kaya</option>
+                <option value="Ayse Nazli">Ayşe Nazlı</option>
+                <option value="Bulent Goksu">Bülent Göksu</option>
+                <option value="Bihter Zıyagil">Bihter Ziyagil</option>
+                <option value="Ali Riza">Ali Rıza</option>
+                <option value="John Wick">Kevin McMahon</option>
+            </select>
+        </div>
+    </form>
+    <div>
+        <a asp-controller="TurkishSelection" asp-action="Treatment" class="btn btn-secondary">Sonraki</a>
+    </div>
+</div>

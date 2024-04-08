@@ -1,19 +1,18 @@
 @model Languages
 
-<h2>Select Language</h2>
+<h2>Dil Seçiniz</h2>
 
 <form asp-action="Language" method="post">
     <div class="form-group">
-        <label asp-for="Language" class="control-label"></label>
         <select asp-for="Language" class="form-control">
-            <option value="Turkish">Turkish</option>
-            <option value="English">English</option>
+            <option value="Turkish">Türkçe</option>
+            <option value="English">İngilizce</option>
             <!-- Add more languages if needed -->
         </select>
         <span asp-validation-for="Language" class="text-danger"></span>
     </div>
     <br>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Onayla</button>
     </div>
 </form>

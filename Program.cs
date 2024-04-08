@@ -1,3 +1,7 @@
+using HealthNCare.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 static void NewMethod(WebApplication app)
@@ -7,6 +11,10 @@ static void NewMethod(WebApplication app)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<RepositoryContext>(options =>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"));
+});
 
 var app = builder.Build();
 

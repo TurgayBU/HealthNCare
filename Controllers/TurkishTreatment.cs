@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Mvc;
 namespace HealthNCare.Controllers
 {
-    public class TreatmentController : Controller
+    public class TurkishTreatmentController : Controller
     {
         public IActionResult Index() 
         {

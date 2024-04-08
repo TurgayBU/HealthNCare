@@ -1,0 +1,19 @@
+@model DoctorInfo
+<h1 class="display-2">Tedavi</h1>
+<div>
+    <form asp-action="Location">
+        <div class="form-group my-2">
+        <label>Uygun Tedaviyi Seçiniz</label>
+        <select asp-for="Treatment" class="form-control">
+            <option value="Dahiliye">Dahiliye</option>
+            <option value="Kulak/Burun/Boğaz">Kulak/Burun/Boğaz</option>
+            <option value="Deri ve Zührevi Hastalıklar ">Deri ve Zührevi Hastalıklar</option>
+            <option value="Çocuk Sağlığı ve Hastalıkları ">Çocuk Sağlığı ve Hastalıkları</option>
+            <option value="Genel Cerrahi">Genel Cerrahi</option>
+        </select>
+    </div>
+    </form>
+    <div>
+        <a asp-controller="TurkishSelection" asp-action="Date" class="btn btn-secondary">Sonraki</a>
+    </div>
+</div>
