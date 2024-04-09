@@ -34,9 +34,12 @@ namespace HealthNCare.Controllers
             }
             if (ModelState.IsValid){
                     Care.Add(model);
-            return View("SignAfterRe",model);
+            return RedirectToAction("SignAfterRe","TurkishTreatment",model);
             }
             return View();
+        }
+        public IActionResult SignAfterRe(Patient model){
+            return View(model);
         }
     }
 }

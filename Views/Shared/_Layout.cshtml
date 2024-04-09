@@ -31,37 +31,28 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" >
+                <div class="container">
+            <!-- Left side -->
+            <div class="navbar-nav mr-auto">
+                <!-- Put your left side navigation links here -->
+                <a  class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy
+                                (<i class="fa-solid fa-info"></i>)</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Languages">Languages</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Apply">Register</a>
+            </div>
+
+            <!-- Center (Logo) -->
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                 <img src="/images/HealthNCareLogo.png" alt="HeathNCare Logo" style="width: 125px;height:75;">
                </a>
-            <div class="container-fluid">
-           
-               
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navba~-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" >
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a  class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                (<i class="fa-solid fa-info"></i>)</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Sign"><i class="fa-solid fa-user"></i>Patient Sign</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="DoctorSign"><i class="fa-solid fa-user"></i>Doctor Sign</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Apply">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Languages">Languages</a>
-                        </li>
-                    </ul>
-                    
-                </div>
+
+            <!-- Right side -->
+            <div class="navbar-nav ml-auto">
+                <!-- Register and login options -->
+                          <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Sign"><i class="fa-solid fa-user"></i>Patient Login</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="DoctorSign"><i class="fa-solid fa-user"></i>Doctor Login</a>
+             
+      
             </div>
         </nav>
     </header>
