@@ -21,6 +21,9 @@ public class Selection : Controller
     {
         return View();
     }
+    public IActionResult TreatmentShow(){
+            return View();
+        }
      public IActionResult Date(){
             return View();
         }

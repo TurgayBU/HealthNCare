@@ -17,10 +17,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    
 [HttpGet]
     public IActionResult Languages()
     {

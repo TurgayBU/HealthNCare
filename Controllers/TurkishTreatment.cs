@@ -22,9 +22,7 @@ namespace HealthNCare.Controllers
         public IActionResult DoctorSign(){
             return View();
         }
-            public IActionResult TreatmentShow(){
-            return View();
-        }
+           
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Apply([FromForm]Patient model){

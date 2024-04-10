@@ -27,6 +27,9 @@ public class TurkishSelection : Controller
     public IActionResult Hospital(){
         return View();
     }
+     public IActionResult TreatmentShow(){
+            return View();
+        }
 }
 
 }
