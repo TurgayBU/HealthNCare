@@ -10,6 +10,8 @@ public class DoctorPageController : Controller
     {
         return View();
     }
-
+    public IActionResult Patient(){
+        return View();
+    }
 }
 }

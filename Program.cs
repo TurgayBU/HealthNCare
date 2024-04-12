@@ -15,6 +15,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RepositoryContext>(options =>{
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"));
 });
+builder.Services.AddDbContext<DoctorContext>(options =>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection1"));
+});
+builder.Services.AddDbContext<LocationContext>(options =>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection3"));
+});
+builder.Services.AddDbContext<DepartmentContext>(options=>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection4"));
+});
+builder.Services.AddDbContext<HospitalContext>(options=>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection5"));
+});
+builder.Services.AddDbContext<AppointmentContext>(options=>{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection6"));
+});
 
 var app = builder.Build();
 

@@ -9,5 +9,18 @@ namespace HealthNCare.Models
         {
             
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Patient>()
+            .HasData(
+                new Patient {
+                    PatientId = 1,
+                    FirstName = "John",
+                    SecondName= "Doe",
+                     Age= 20,
+                     Gender= "Male",}
+            );
+        }
     }
 }

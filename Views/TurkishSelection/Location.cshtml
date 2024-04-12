@@ -1,10 +1,10 @@
-@model Patient
+@model HealthNCare.Models.Location
 <h1 class="display-2">Tedavi Konumunu Seçiniz</h1>
 <div>
-    <form asp-action="Location">
-        <div class="form-group my-2">
+    <form method="post" asp-action="Location">
+        <div  class="form-group my-2">
             <label>Lütfen Konum Ayarlarıyınız</label>
-            <select class="form-control">
+            <select  asp-for="Name"class="form-control">
                 <option value="Istanbul">İstanbul</option>
                 <option value="Ankara">Ankara</option>
                 <option value="Izmir">İzmir</option>
