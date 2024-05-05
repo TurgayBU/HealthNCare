@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace HealthNCare.Models
 {
-    public class Patient
+    public class Patient : IdentityUser
     {
-        [Key]
         public int PatientId { get; set; }
         [Required(ErrorMessage ="Please fill the Email")]
          public String? Email { get; set; } = String.Empty;
@@ -18,20 +18,16 @@ namespace HealthNCare.Models
         public int? Weight{get;set;}
         [Required(ErrorMessage ="Please enter your Height")]
         public int? Height{get;set;}
-        public DateTime ApplyAt{get;set;}
-        public Patient(){
-            ApplyAt=DateTime.Now;
-        }
+        
         [Required(ErrorMessage ="Please select your Bloodtype")]
         public String? BloodType{get;set;}=String.Empty;
         [Required(ErrorMessage ="Please enter your Password")]
         public String? Password{get;set;}=String.Empty;
-        [Required(ErrorMessage ="Please enter your Email address")] 
-        public String? SEmail=String.Empty;
-        [Required(ErrorMessage ="Please enter your Password")]
-        public String? SPassword=String.Empty;
+
        [Required(ErrorMessage ="Please enter your Gender")]
         public String? Gender=String.Empty;
+       
+
     }
     
 }

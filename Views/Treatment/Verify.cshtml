@@ -1,0 +1,23 @@
+@model Patient
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+</head>
+<body>
+    <h1>Verify Your Email</h1>
+    <p>An email with a verification code has been sent to <strong>@Model.Email</strong>. Please check your inbox and enter the verification code below:</p>
+    
+    <form method="post" asp-action="Verify">
+        <div class="form-group">
+            <label for="verificationCode">Verification Code:</label>
+            <input type="text" id="verificationCode" name="verificationCode" class="form-control" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Verify</button>
+    </form>
+</body>
+</html>

@@ -1,8 +1,11 @@
 using HealthNCare.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
+using HealthNCare.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 static void NewMethod(WebApplication app)
 {
@@ -11,10 +14,17 @@ static void NewMethod(WebApplication app)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<RepositoryContext>(options =>{
+builder.Services.AddDbContext<PatientDbContext>(options =>{
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"));
 });
+builder.Services.AddDbContext<Patients1DbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("Patients1DbContextConnection"));
+});
+
+builder.Services.AddDefaultIdentity<Patients1>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<Patients1DbContext>();
 builder.Services.AddDbContext<DoctorContext>(options =>{
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection1"));
 });
@@ -30,7 +40,9 @@ builder.Services.AddDbContext<HospitalContext>(options=>{
 builder.Services.AddDbContext<AppointmentContext>(options=>{
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection6"));
 });
-
+builder.Services.Configure<IdentityOptions>(options=>{
+    options.Password.RequireUppercase=false;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +62,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 NewMethod(app);
 

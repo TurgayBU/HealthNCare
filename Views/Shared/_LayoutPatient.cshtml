@@ -48,10 +48,13 @@
 
             <!-- Right side -->
             <div class="navbar-nav ml-auto">
-                   <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-user"></i>Logout</a>
-             
+                  
+            <div>
+                <partial name="_LoginPartial.cshtml">
+            </div> 
             
             </div>
+            
         </nav>
     </header>
     <div class="container">

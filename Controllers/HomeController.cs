@@ -1,19 +1,24 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HealthNCare.Models;
+using Microsoft.AspNetCore.Identity;
+using HealthNCare.Areas.Identity.Data;
 namespace HealthNCare.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly UserManager<Patients1> _userManager;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger,UserManager<Patients1> userManager)
     {
         _logger = logger;
+        this._userManager = userManager;
     }
 
     public IActionResult Index()
     {
+        ViewData["UserID"]=_userManager.GetUserId(this.User);
         return View();
     }
 

@@ -36,7 +36,8 @@
             <div class="navbar-nav mr-auto">
                 <!-- Put your left side navigation links here -->
                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Languages">Languages</a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Apply">Register</a>
+                 
+<a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="DoctorSign"><i class="fa-solid fa-user"></i>Doctor Login</a>
             </div>
 
             <!-- Center (Logo) -->
@@ -47,11 +48,14 @@
             <!-- Right side -->
             <div class="navbar-nav ml-auto">
                 <!-- Register and login options -->
-                          <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="Sign"><i class="fa-solid fa-user"></i>Patient Login</a>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Treatment" asp-action="DoctorSign"><i class="fa-solid fa-user"></i>Doctor Login</a>
-             
+
+                
+             <div>
+                <partial name="_LoginPartial"></partial>
+             </div>
       
             </div>
+            
         </nav>
     </header>
     <div class="container">
