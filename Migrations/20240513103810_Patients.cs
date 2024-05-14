@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealthNCare.Migrations
 {
     /// <inheritdoc />
-    public partial class PatientMigration : Migration
+    public partial class Patients : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,6 +163,127 @@ namespace HealthNCare.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Location",
+                columns: table => new
+                {
+                    LocationId = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Patients1Id = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Location", x => x.LocationId);
+                    table.ForeignKey(
+                        name: "FK_Location_AspNetUsers_Patients1Id",
+                        column: x => x.Patients1Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hospital",
+                columns: table => new
+                {
+                    HospitalId = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    LocationId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hospital", x => x.HospitalId);
+                    table.ForeignKey(
+                        name: "FK_Hospital_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Department",
+                columns: table => new
+                {
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
+                    NameTurkish = table.Column<string>(type: "TEXT", nullable: false),
+                    NameEnglish = table.Column<string>(type: "TEXT", nullable: false),
+                    HospitalId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Department", x => x.DepartmentId);
+                    table.ForeignKey(
+                        name: "FK_Department_Hospital_HospitalId",
+                        column: x => x.HospitalId,
+                        principalTable: "Hospital",
+                        principalColumn: "HospitalId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctor",
+                columns: table => new
+                {
+                    DoctorId = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctor", x => x.DoctorId);
+                    table.ForeignKey(
+                        name: "FK_Doctor_Department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Department",
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointment",
+                columns: table => new
+                {
+                    AppointmentId = table.Column<string>(type: "TEXT", nullable: false),
+                    DoctorId = table.Column<string>(type: "TEXT", nullable: false),
+                    AppointmentTime = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointment", x => x.AppointmentId);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Doctor_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctor",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Time",
+                columns: table => new
+                {
+                    TimeId = table.Column<string>(type: "TEXT", nullable: false),
+                    AppointmentId = table.Column<string>(type: "TEXT", nullable: false),
+                    Time1 = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Time", x => x.TimeId);
+                    table.ForeignKey(
+                        name: "FK_Time_Appointment_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointment",
+                        principalColumn: "AppointmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointment_DoctorId",
+                table: "Appointment",
+                column: "DoctorId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -199,6 +320,31 @@ namespace HealthNCare.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Department_HospitalId",
+                table: "Department",
+                column: "HospitalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctor_DepartmentId",
+                table: "Doctor",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hospital_LocationId",
+                table: "Hospital",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_Patients1Id",
+                table: "Location",
+                column: "Patients1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Time_AppointmentId",
+                table: "Time",
+                column: "AppointmentId");
         }
 
         /// <inheritdoc />
@@ -220,7 +366,25 @@ namespace HealthNCare.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Time");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Appointment");
+
+            migrationBuilder.DropTable(
+                name: "Doctor");
+
+            migrationBuilder.DropTable(
+                name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "Hospital");
+
+            migrationBuilder.DropTable(
+                name: "Location");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

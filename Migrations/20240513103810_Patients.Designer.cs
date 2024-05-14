@@ -11,14 +11,86 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthNCare.Migrations
 {
     [DbContext(typeof(Patients1DbContext))]
-    [Migration("20240505113718_PatientMigration")]
-    partial class PatientMigration
+    [Migration("20240513103810_Patients")]
+    partial class Patients
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+
+            modelBuilder.Entity("Appointment", b =>
+                {
+                    b.Property<string>("AppointmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppointmentTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppointmentId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Appointment");
+                });
+
+            modelBuilder.Entity("Department", b =>
+                {
+                    b.Property<string>("DepartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HospitalId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameEnglish")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameTurkish")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DepartmentId");
+
+                    b.HasIndex("HospitalId");
+
+                    b.ToTable("Department");
+                });
+
+            modelBuilder.Entity("Doctor", b =>
+                {
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DepartmentId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DoctorId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Doctor");
+                });
 
             modelBuilder.Entity("HealthNCare.Areas.Identity.Data.Patients1", b =>
                 {
@@ -107,6 +179,45 @@ namespace HealthNCare.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Hospital", b =>
+                {
+                    b.Property<string>("HospitalId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("HospitalId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Hospital");
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Location", b =>
+                {
+                    b.Property<string>("LocationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Patients1Id")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LocationId");
+
+                    b.HasIndex("Patients1Id");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -241,6 +352,77 @@ namespace HealthNCare.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Time", b =>
+                {
+                    b.Property<string>("TimeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppointmentId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Time1")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("TimeId");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("Time");
+                });
+
+            modelBuilder.Entity("Appointment", b =>
+                {
+                    b.HasOne("Doctor", "Doctor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("Department", b =>
+                {
+                    b.HasOne("HealthNCare.Models.Hospital", "Hospital")
+                        .WithMany("Departments")
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hospital");
+                });
+
+            modelBuilder.Entity("Doctor", b =>
+                {
+                    b.HasOne("Department", "Department")
+                        .WithMany("Doctors")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Hospital", b =>
+                {
+                    b.HasOne("HealthNCare.Models.Location", "Location")
+                        .WithMany("Hospitals")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Location", b =>
+                {
+                    b.HasOne("HealthNCare.Areas.Identity.Data.Patients1", null)
+                        .WithMany("Locations")
+                        .HasForeignKey("Patients1Id");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -290,6 +472,47 @@ namespace HealthNCare.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Time", b =>
+                {
+                    b.HasOne("Appointment", "Appointment")
+                        .WithMany("Times")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("Appointment", b =>
+                {
+                    b.Navigation("Times");
+                });
+
+            modelBuilder.Entity("Department", b =>
+                {
+                    b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("Doctor", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("HealthNCare.Areas.Identity.Data.Patients1", b =>
+                {
+                    b.Navigation("Locations");
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Hospital", b =>
+                {
+                    b.Navigation("Departments");
+                });
+
+            modelBuilder.Entity("HealthNCare.Models.Location", b =>
+                {
+                    b.Navigation("Hospitals");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,7 +22,9 @@ namespace HealthNCare.Controllers
                 // Handle the case where the user is not found
                 return NotFound();
             }
-
+          /* if (user.LocationId==null){
+                return View(user);
+            }*/
             return View(user);
         }
         public IActionResult Patientpage(){

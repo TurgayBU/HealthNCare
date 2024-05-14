@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using HealthNCare.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace HealthNCare.Areas.Identity.Data;
@@ -26,8 +28,7 @@ public class Patients1 : IdentityUser
     public int Height{get;set;}
     [PersonalData]
     public int Weight{get;set;}
-    
-
+    public ICollection<Location> Locations { get; set; } = new List<Location>();
 
 }
 
