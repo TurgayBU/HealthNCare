@@ -1,20 +1,24 @@
-
-    <style>
-    </style>
-    <div class="text-center">
-        <h1 style="color: white;" class="display-4">HealthNCare</h1>
-        <div class="container p-5 my-5 bg-light text-info" style="border-radius: 8px;">
+<style>
+</style>
+<div class="text-center">
+    <h1 style="color: white;" class="display-4">HealthNCare</h1>
+    <div class="container p-5 my-5 bg-light text-info" style="border-radius: 8px;">
         <p style="color: white;">
-            <a style="color: white;" asp-controller="Location" asp-action="Index" class="btn btn-info">Create an Appoinment</a><!-- asp-controller viewdeki dosyaya gönderiyor asp-action ise dosyadaki sayfaya gönderiyor-->
+            <a asp-controller="Appointments" asp-action="SelectLocation" class="btn btn-info btn-create">Create Appointment</a>
         </p>
-        </div>
-        <div class="container p-5 my-5 bg-info text-white" style="border-radius: 8px;">
-            <p>
-                Past and Upcoming Appoinments
-            </p>
-            <p>
-            <a asp-controller="Selection" asp-action="TreatmentShow" class="btn btn-primary">Past and Upcoming Appoinments</a>
-            </p>
-        </div>
-        
     </div>
+    <div class="container p-5 my-5 bg-info text-white" style="border-radius: 8px;">
+        <p>
+            Past and Upcoming Appointments
+        </p>
+        <p>
+            <a asp-controller="Appointments" asp-action="ListAppointments" class="btn btn-primary">Past and Upcoming Appointments</a>
+        </p>
+    </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+</div>

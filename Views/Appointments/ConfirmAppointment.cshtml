@@ -1,0 +1,28 @@
+@model ConfirmAppointmentViewModel
+
+@{
+    ViewData["Title"] = "Confirm Appointment";
+}
+
+<h2>Confirm Appointment</h2>
+
+<p>Please check the details of your appointment:</p>
+
+<p>Date: @Model.SelectedDate</p>
+<p>Time: @Model.SelectedTime</p>
+<p>Location: @Model.SelectedLocation</p>
+<p>Hospital: @Model.SelectedHospital</p>
+<p>Department: @Model.SelectedDepartment</p>
+<p>Doctor: @Model.SelectedDoctor</p>
+
+<form asp-action="SaveAppointment" method="post">
+    <input type="hidden" name="SelectedDateId" value="@Model.SelectedDateId" />
+    <input type="hidden" name="SelectedTimeId" value="@Model.SelectedTimeId" />
+    <input type="hidden" name="SelectedLocationId" value="@Model.SelectedLocationId" />
+    <input type="hidden" name="SelectedHospitalId" value="@Model.SelectedHospitalId" />
+    <input type="hidden" name="SelectedDepartmentId" value="@Model.SelectedDepartmentId" />
+    <input type="hidden" name="SelectedDoctorId" value="@Model.SelectedDoctorId" />
+    
+    <button type="submit" class="btn btn-success">Confirm</button>
+    <a asp-action="SelectDateTime" class="btn btn-secondary">Back</a>
+</form>

@@ -28,7 +28,7 @@ public class Patients1 : IdentityUser
     public int Height{get;set;}
     [PersonalData]
     public int Weight{get;set;}
-    public ICollection<Location> Locations { get; set; } = new List<Location>();
+
 
 }
 

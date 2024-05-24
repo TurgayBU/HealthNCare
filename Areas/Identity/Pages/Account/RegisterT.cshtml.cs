@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HealthNCare.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class RegisterModelT : PageModel
     {
         private readonly SignInManager<Patients1> _signInManager;
         private readonly UserManager<Patients1> _userManager;
@@ -31,7 +31,7 @@ namespace HealthNCare.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterModelT(
             UserManager<Patients1> userManager,
             IUserStore<Patients1> userStore,
             SignInManager<Patients1> signInManager,
@@ -132,70 +132,66 @@ namespace HealthNCare.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             if(User.Identity.IsAuthenticated){
-                Response.Redirect("~/PatientPage/PatientPage");
+                Response.Redirect("~/PatientPageT/PatientPage");
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-{
-    returnUrl ??= Url.Content("~/PatientPage/PatientPage");
-    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-    if (ModelState.IsValid)
-    {
-        var user = CreateUser();
-        user.FirstName = Input.FirstName;
-        user.LastName = Input.LastName;
-        user.Gender = Input.Gender;
-        user.BloodType = Input.BloodType;
-        user.Weight = Input.Weight;
-        user.Height = Input.Height;
-        user.Age = Input.Age;
-
-        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        var result = await _userManager.CreateAsync(user, Input.Password);
-
-        if (result.Succeeded)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            _logger.LogInformation("User created a new account with password.");
-
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                protocol: Request.Scheme);
-
-            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+            returnUrl ??= Url.Content("~/PatientPageT/PatientPage");
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (ModelState.IsValid)
             {
-                // Kullanıcıya bir bilgilendirme mesajı göster ve belirlediğiniz başka bir sayfaya yönlendir.
-                TempData["Message"] = "Registration successful. Please check your email for verification instructions.";
-                return RedirectToPage("Index"); // Başka bir sayfaya yönlendirme
+                var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName=Input.LastName;
+                user.Gender=Input.Gender;
+                user.BloodType=Input.BloodType;
+                user.Weight=Input.Weight;
+                user.Height=Input.Height;
+                user.Age=Input.Age;
+
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, Input.Password);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-            else
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return LocalRedirect(returnUrl);
-            }
+
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
-        }
-    }
-
-    // If we got this far, something failed, redisplay form
-    return Page();
-}
-
-
 
         private Patients1 CreateUser()
         {

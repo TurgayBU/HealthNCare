@@ -5,16 +5,20 @@
         <h1 style="color: white;" class="display-4">HealthNCare</h1>
         <div class="container p-5 my-5 bg-light text-info" style="border-radius: 8px;">
         <p style="color: white;">
-            <a style="color: white;" asp-controller="TurkishSelection" asp-action="Location" class="btn btn-info">Randevu Oluştur</a><!-- asp-controller viewdeki dosyaya gönderiyor asp-action ise dosyadaki sayfaya gönderiyor-->
-        </p>
+            <a asp-controller="AppointmentsT" asp-action="SelectLocation" class="btn btn-info btn-create">Randevu Oluştur</a>        </p>
         </div>
         <div class="container p-5 my-5 bg-info text-white" style="border-radius: 8px;">
             <p>
                 Geçmiş ve Yakın Randevular
             </p>
             <p>
-            <a asp-controller="TurkishSelection" asp-action="TreatmentShow" class="btn btn-primary">Geçmiş ve Yakın Randevular</a>
+            <a asp-controller="AppointmentsT" asp-action="ListAppointments" class="btn btn-primary">Geçmiş ve Yakın Randevular</a>
             </p>
         </div>
-        
+        @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
     </div>

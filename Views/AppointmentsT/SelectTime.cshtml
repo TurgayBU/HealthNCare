@@ -1,0 +1,12 @@
+@model List<AppointmentTime>
+
+<h2>Select a Time</h2>
+<form asp-action="SaveAppointment" method="post">
+    <select name="selectedTime">
+        @foreach (var appointmentTime in Model)
+        {
+            <option value="@appointmentTime.Time">@appointmentTime.Time.ToString("hh:mm")</option>
+        }
+    </select>
+    <button type="submit">Next</button>
+</form>

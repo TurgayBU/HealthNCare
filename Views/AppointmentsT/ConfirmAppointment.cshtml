@@ -1,0 +1,28 @@
+@model ConfirmAppointmentViewModel
+
+@{
+    ViewData["Title"] = "Randevu doğrulama";
+}
+
+<h2>Randevu Doğrulama</h2>
+
+<p>Lütfen Randevunuz Detaylarını Kontrol Ediniz:</p>
+
+<p>Tarih: @Model.SelectedDate</p>
+<p>Saat: @Model.SelectedTime</p>
+<p>Konum: @Model.SelectedLocation</p>
+<p>Hastane: @Model.SelectedHospital</p>
+<p>Bölüm: @Model.SelectedDepartment</p>
+<p>Doktor: @Model.SelectedDoctor</p>
+
+<form asp-action="SaveAppointment" method="post">
+    <input type="hidden" name="SelectedDateId" value="@Model.SelectedDateId" />
+    <input type="hidden" name="SelectedTimeId" value="@Model.SelectedTimeId" />
+    <input type="hidden" name="SelectedLocationId" value="@Model.SelectedLocationId" />
+    <input type="hidden" name="SelectedHospitalId" value="@Model.SelectedHospitalId" />
+    <input type="hidden" name="SelectedDepartmentId" value="@Model.SelectedDepartmentId" />
+    <input type="hidden" name="SelectedDoctorId" value="@Model.SelectedDoctorId" />
+    
+    <button type="submit" class="btn btn-success">Onaylama</button>
+    <a asp-action="SelectDateTime" class="btn btn-secondary">Geri</a>
+</form>

@@ -1,0 +1,13 @@
+@model List<Location>
+
+<form asp-action="SelectLocation" method="post">
+    <h3>Locations:</h3>
+    <select id="location" class="form-select" name="selectedLocationId" required>
+        @foreach (var location in Model)
+        {
+            <option value="@location.LocationId">@location.Name</option>
+        }
+    </select>
+    <br>
+    <button class="btn btn-primary" type="submit">Continue</button>
+</form>

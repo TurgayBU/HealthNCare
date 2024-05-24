@@ -1,3 +1,5 @@
+@inject SignInManager<Patients1> SignInManager
+@inject UserManager<Patients1> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,25 +35,44 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" >
                 <div class="container">
             <!-- Left side -->
-            <div class="navbar-nav mr-auto">
+            
+            @if (SignInManager.IsSignedIn(User))
+{
+    <div class="navbar-nav mr-auto">
+                <!-- Put your left side navigation links here -->
+                 <a  class="nav-link text-dark" asp-area="" asp-controller="PatientPageT" asp-action="Privacy">Kullanıcı Bilgileri
+                                (<i class="fa-solid fa-info"></i>)</a>
+              
+            </div>
+  <a class="navbar-brand" asp-area="" asp-controller="PatientPageT" asp-action="Patientpage">
+                <img src="/images/HealthNCareLogo.png" alt="HeathNCare Logo" style="width: 125px;height:75;">
+               </a> 
+}
+else
+{
+    <div class="navbar-nav mr-auto">
                 <!-- Put your left side navigation links here -->
                 <a class="nav-link text-dark" asp-area="" asp-controller="HomeT" asp-action="Languages">Diller</a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="TurkishTreatment" asp-action="Apply">Kaydol</a>
+                 
             </div>
-
-            <!-- Center (Logo) -->
-            <a class="navbar-brand" asp-area="" asp-controller="HomeT" asp-action="Index">
+    <a class="navbar-brand" asp-area="" asp-controller="HomeT" asp-action="Index">
                 <img src="/images/HealthNCareLogo.png" alt="HeathNCare Logo" style="width: 125px;height:75;">
                </a>
+}
+            <!-- Center (Logo) -->
+            
 
             <!-- Right side -->
             <div class="navbar-nav ml-auto">
                 <!-- Register and login options -->
-                          <a class="nav-link text-dark" asp-area="" asp-controller="TurkishTreatment" asp-action="Sign"><i class="fa-solid fa-user"></i>Kullanıcı Girişi</a>
-                <a class="nav-link text-dark" asp-area="" asp-controller="TurkishTreatment" asp-action="DoctorSign"><i class="fa-solid fa-user"></i>Doktor Girişi</a>
-             
+
+                
+             <div>
+                <partial name="_LoginPartialT"></partial>
+             </div>
       
             </div>
+            
         </nav>
     </header>
     <div class="container">

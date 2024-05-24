@@ -1,0 +1,17 @@
+@using Microsoft.AspNetCore.Identity
+@using HealthNCare.Areas.Identity.Data
+
+@inject SignInManager<Patients1> SignInManager
+@inject UserManager<Patients1> UserManager
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/ManageT/Index" title="Manage">Merhaba @UserManager.GetUserName(User)</a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "HomeT", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Çıkış</button>
+        </form>
+    </li>
+}

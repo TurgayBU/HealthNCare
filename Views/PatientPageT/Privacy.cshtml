@@ -1,38 +1,39 @@
-﻿
+﻿@using HealthNCare.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model Patients1
 <style>
     tr:hover{background-color: aquamarine;}
 </style>
 <table class="table table-hover table striped" style="color: white;">
     <thead>
         <tr>
-            <th>Fullname</th>
+            <th>İsim Soyisim</th>
             <th>E-mail</th>
-            <th>Password</th>
+     
         </tr>
     </thead>
     <tbody>
         <tr>
-        <th>Test User</th>
-        <th>test.gmail.com</th>
-        <th>1234567</th>
+        <th>@Model.FirstName @Model.LastName</th>
+        <th>@Model.Email</th>
         </tr>
     </tbody>
 </table>
 <table class="table table-hover table stripped" style="color: white;" >
     <thead>
         <tr tr:hover{background-color:blue}>
-        <th>Age</th>
-        <th>Weight</th>
-        <th>Height</th>
-        <th>Bloodtype</th>
+        <th>Yaş</th>
+        <th>Kilo</th>
+        <th>Boy</th>
+        <th>Kan Grubu</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-        <th>21 years old</th>
-        <th>64 kg</th>
-        <th>173cm</th>
-        <th>0Rh+</th>
+        <th>@Model.Age</th>
+        <th>@Model.Weight</th>
+        <th>@Model.Height</th>
+        <th>@Model.BloodType</th>
         </tr>
     </tbody>
 </table>

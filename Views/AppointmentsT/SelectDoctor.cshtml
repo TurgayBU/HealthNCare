@@ -1,0 +1,13 @@
+@model List<Doctor>
+
+<form asp-action="SelectDoctor" method="post">
+    <h3>Doktor:</h3>
+    <select id="doctor" class="form-select" name="selectedDoctorId" required>
+        @foreach (var doctor in Model)
+        {
+            <option value="@doctor.DoctorId">@doctor.Name</option>
+        }
+    </select>
+    <br>
+    <button class="btn btn-primary" type="submit">Sonraki</button>
+</form>

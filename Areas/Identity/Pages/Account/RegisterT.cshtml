@@ -1,0 +1,124 @@
+﻿@page
+@model RegisterModelT
+@{
+    ViewData["Title"] = "Register ";
+}
+@{
+    Layout = "/Views/Shared/_LayoutT.cshtml";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2 class="d-flex justify-content-center">Yeni Hesap Oluştur</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="first name" />
+                <label asp-for="Input.FirstName" style="color: grey;">Ad</label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true" placeholder="last name" />
+                <label asp-for="Input.LastName" style="color: grey;">Soyad</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+                </div>
+
+            </div>
+            
+            
+            <div class="form-floating mb-3">
+                <fieldset>
+        <legend class="d-flex justify-content-center">Yaşınızı Seçin</legend>
+        <p>
+            <div class="form-floating mb-3">
+            <select asp-for="Input.Age" class="form-control">
+    @for (int age = 18; age <= 90; age++)
+    {
+        <option value="@age">@age</option>
+    }
+</select>
+
+               
+            </div>
+        </p>
+    </fieldset>
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                <input asp-for="Input.Weight" class="form-control" autocomplete="weight" aria-required="true" placeholder="weight" />
+                <label asp-for="Input.Weight" style="color: grey;">Kilo</label>
+                 <span asp-validation-for="Input.Weight" class="text-danger"></span>
+            </div>
+                </div>
+                <div class="col-6">
+                <div class="form-floating mb-3">
+                <input asp-for="Input.Height" class="form-control" autocomplete="height" aria-required="true" placeholder="height" />
+                <label asp-for="Input.Height" style="color: grey;">Boy</label>
+                <span asp-validation-for="Input.Height" class="text-danger"></span>
+            </div>
+            </div>
+                </div>
+           <div class="row">
+                <div class="col-6">
+                    <h5>Kan Grubu</h5>
+            <div class="form-floating mb-3">
+             <select asp-for="Input.BloodType" class="form-control">
+             <option value="ORh-">ORh-</option>
+             <option value="ORh+">ORh+</option>
+             <option value="ARh-">ARh-</option>
+             <option value="ARh+">ARh+</option>
+             <option value="BRh-">BRh-</option>
+             <option value="BRh+">BRh+</option>
+             <option value="ABRh-">ABRh-</option>
+             <option value="ABRh+">ABRh+</option>
+             </select>
+               
+            </div>
+
+            </div>
+
+                <div class="col-6">
+                 <div class="form-floating mb-3">
+        <h5>Cinsiyetinizi Seçin</h5>
+        <select asp-for="Input.Gender" class="form-control">
+        <option value="Male">Erkek</option>
+        <option value="Female">Kadın</option>
+        </select>
+            </div>
+            </div>
+ 
+            
+            
+           
+    <br>
+    <div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" style="color: grey;">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" style="color: grey;">Şifre</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.ConfirmPassword" style="color: grey;">Şifrenizi Doğrulayın</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Kaydol</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

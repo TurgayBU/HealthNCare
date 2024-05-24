@@ -1,16 +1,18 @@
 using HealthNCare.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity;
 using HealthNCare.Areas.Identity.Data;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using HealthNCare.Areas.Identity.Pages.Account.Configuration;
+using HealthNCare.Areas.Identity.Pages.Account.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Configure the DbContext with connection strings
 builder.Services.AddDbContext<Patients1DbContext>(options =>
 {
@@ -21,39 +23,18 @@ builder.Services.AddDbContext<HospitalContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection5"));
 });
-/*
-builder.Services.AddDbContext<DoctorContext>(options =>
+
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection1"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqliteconnection11"));
 });
 
-builder.Services.AddDbContext<LocationContext>(options =>
+// Add default identity configuration for AppDbContext
+builder.Services.AddDefaultIdentity<Patients1>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection3"));
-});
-
-builder.Services.AddDbContext<DepartmentContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection4"));
-});
-
-builder.Services.AddDbContext<AppointmentContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection6"));
-});
-
-builder.Services.AddDbContext<TimeContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection7"));
-});
-*/
-builder.Services.AddDefaultIdentity<Patients1>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<Patients1DbContext>();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Password.RequireUppercase = false;
-});
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddEntityFrameworkStores<AppDbContext>();
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
@@ -67,6 +48,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate(); // Ensure the database is created/updated
+    dbContext.SeedDatabase(dbContext);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -99,13 +87,16 @@ app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<HospitalContext>();
-    context.Database.EnsureCreated();
-    SeedDatabase(context); // Call the SeedDatabase method
+    // SeedDatabase method call
+    // var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // SeedDatabase(context);
 }
+
 app.Run();
-void SeedDatabase(HospitalContext context)
+
+/*void SeedDatabase(AppDbContext context)
     {
+       
         if (!context.Locations.Any())
         {
             var locations = new List<Location>
@@ -246,37 +237,37 @@ void SeedDatabase(HospitalContext context)
             var doctorNames = new List<string>
             {
                 // Doktor isimleri buraya eklenecek. // Doktor isimleri buraya eklenecek..d
-                 "Ali Kemal",
-    "Mehmet Aydın",
-    "Ayşe Yılmaz",
-    "Fatma Demir",
-    "Ahmet Yıldız",
-    "Zeynep Kaya",
-    "Mustafa Güneş",
-    "Selin Tekin",
-    "Gözde Yılmaz",
-    "Deniz Arslan",
+                 "Prof.Dr.Ali Kemal",
+    "Dr.Mehmet Aydın",
+    "Prof.Dr.Ayşe Yılmaz",
+    "Dr.Fatma Demir",
+    "Dr.Ahmet Yıldız",
+    "Dr.Zeynep Kaya",
+    "Dr.Mustafa Güneş",
+    "Prof.Dr.Selin Tekin",
+    "Dr.Gözde Yılmaz",
+    "Dr.Deniz Arslan",
     // Diğer doktor isimleri buraya eklenecek...
-    "Sema Çelik",
-    "Burak Arıkan",
-    "Nergis Güler",
-    "Yasin Demir",
-    "Elif Şahin",
-    "Kadir Aktaş",
-    "Sevgi Öztürk",
-    "Onur Yıldırım",
-    "Gülşah Arslan",
+    "Dr.Sema Çelik",
+    "Prof.Dr.Burak Arıkan",
+    "Dr.Nergis Güler",
+    "Dr.Yasin Demir",
+    "Prof.Dr.Elif Şahin",
+    "Dr.Kadir Aktaş",
+    "Dr.Sevgi Öztürk",
+    "Dr.nur Yıldırım",
+    "Dr.Gülşah Arslan",
     // Diğer doktor isimleri buraya eklenecek...
-    "Ahmet Yılmaz",
-    "Ayşe Demirci",
-    "Mehmet Aksoy",
-    "Fatma Toprak",
-    "Hasan Yıldız",
-    "Zeynep Kaya",
-    "Şevket Erdoğan",
-    "Selin Durmuş",
-    "Canan Yaman",
-    "Barış Güneş",
+    "Prof.Dr.Ahmet Yılmaz",
+    "Prof.Dr.Ayşe Demirci",
+    "Dr.Mehmet Aksoy",
+    "Dr.Fatma Toprak",
+    "Dr.Hasan Yıldız",
+    "Dr.Zeynep Kaya",
+    "Prof.Dr.Şevket Erdoğan",
+    "Dr.Selin Durmuş",
+    "Prof.Dr.Canan Yaman",
+    "Dr.Barış Güneş",
             };
 
             foreach (var hospital in hospitals)
@@ -334,3 +325,4 @@ void SeedDatabase(HospitalContext context)
     }}}
     context.SaveChanges();
     }}
+*/

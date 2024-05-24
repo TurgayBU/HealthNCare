@@ -1,6 +1,4 @@
-﻿@inject SignInManager<Patients1> SignInManager
-@inject UserManager<Patients1> UserManager
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,25 +33,11 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" >
                 <div class="container">
             <!-- Left side -->
-            <div class="navbar-nav mr-auto">
-                <!-- Put your left side navigation links here -->
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Languages">Languages</a>
-                 
-
-            </div>
-
-            @if (SignInManager.IsSignedIn(User))
-{
-  <a class="navbar-brand" asp-area="" asp-controller="PatientPage" asp-action="Patientpage">
-                <img src="/images/HealthNCareLogo.png" alt="HeathNCare Logo" style="width: 125px;height:75;">
-               </a> 
-}
-else
-{
-    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+    
+            <!-- Center (Logo) -->
+            <a class="navbar-brand" asp-area="" asp-controller="PatientPageT" asp-action="Patientpage">
                 <img src="/images/HealthNCareLogo.png" alt="HeathNCare Logo" style="width: 125px;height:75;">
                </a>
-}
 
             <!-- Right side -->
             <div class="navbar-nav ml-auto">
@@ -61,7 +45,7 @@ else
 
                 
              <div>
-                <partial name="_LoginPartial"></partial>
+                <partial name="_LoginPartialManageT"></partial>
              </div>
       
             </div>
@@ -76,7 +60,7 @@ else
 
     <footer class="border-top footer text-muted">
         <div style="margin: auto;" class="container">
-            -HealthNCare For Your Appoinments-
+            -HealthNCare Randevularınız İçin-
             <!-- &copy; 2024 - HealthNCare - -->
         </div>
     </footer>

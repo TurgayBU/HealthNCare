@@ -1,10 +1,15 @@
-using HealthNCare.Models;
+using HealthNCare.Areas.Identity.Data;
 
-public class Hospital
+namespace HealthNCare.Models
 {
-    public string HospitalId { get; set; }
-    public string Name { get; set; }
-    public string LocationId { get; set; }
-    public Location Location { get; set; }
-    public List<Department> Departments { get; set; }
+    public class Hospital
+    {
+        public string HospitalId { get; set; }
+        public string Name { get; set; }
+        public string LocationId { get; set; }
+        public Location Location { get; set; }
+        public List<Department> Departments { get; set; }
+        public ICollection<AppointmentRecord> AppointmentRecords { get; set; }
+        
+    }
 }
