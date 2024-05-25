@@ -202,7 +202,18 @@ public class AppointmentsController : Controller
     return View(viewModel);
 }
 
+[HttpGet]
+    public IActionResult GetAppointmentTimes(string dateId)
+    {
+        // Convert dateId to int or Guid based on your AppointmentDateId type
+        // Retrieve appointment times for the selected date from your database
+        var appointmentTimes = _context.AppointmentTimes
+            .Where(t => t.AppointmentDateId == dateId)
+            .Select(t => new { appointmentTimeId = t.AppointmentTimeId, time = t.Time.ToString(@"hh\:mm") })
+            .ToList();
 
+        return Json(appointmentTimes);
+    }
 
     [HttpPost]
 public async Task<IActionResult> SaveAppointment(ConfirmAppointmentViewModel model)

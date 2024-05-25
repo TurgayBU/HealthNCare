@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace HealthNCare.Areas.Identity.Pages.Account
 {
@@ -138,60 +139,47 @@ namespace HealthNCare.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
-            returnUrl ??= Url.Content("~/PatientPageT/PatientPage");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
-                var user = CreateUser();
-                user.FirstName = Input.FirstName;
-                user.LastName=Input.LastName;
-                user.Gender=Input.Gender;
-                user.BloodType=Input.BloodType;
-                user.Weight=Input.Weight;
-                user.Height=Input.Height;
-                user.Age=Input.Age;
+   public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+{
+    returnUrl ??= Url.Content("~/PatientPageT/PatientPage");
+    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+    
+    if (ModelState.IsValid)
+    {
+        var user = CreateUser();
+        user.FirstName = Input.FirstName;
+        user.LastName = Input.LastName;
+        user.Gender = Input.Gender;
+        user.BloodType = Input.BloodType;
+        user.Weight = Input.Weight;
+        user.Height = Input.Height;
+        user.Age = Input.Age;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+        // Geçici olarak kullanıcının bilgilerini saklayın
+        TempData["User"] = JsonConvert.SerializeObject(user);
+        TempData["Password"] = Input.Password;
+        TempData["Email"] = Input.Email;
 
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
+        // Kullanıcıya onay kodu gönderin
+        var confirmationCode = GenerateConfirmationCode();
+        TempData["ConfirmationCode"] = confirmationCode;
+        await _emailSender.SendEmailAsync(Input.Email, "Email Confirmation Code",
+            $"Your confirmation code is: {confirmationCode}");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+        // Kullanıcıyı doğrulama kodu gireceği sayfaya yönlendirin
+        return RedirectToPage("/Account/VerifyCodeT", new { returnUrl });
+    }
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+    // If we got this far, something failed, redisplay form
+    return Page();
+}
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
+private string GenerateConfirmationCode()
+{
+    var random = new Random();
+    return random.Next(100000, 999999).ToString(); // 6 haneli onay kodu üretir
+}
 
-            // If we got this far, something failed, redisplay form
-            return Page();
-        }
 
         private Patients1 CreateUser()
         {

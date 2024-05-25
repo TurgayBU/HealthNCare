@@ -1,12 +1,11 @@
 @model AppointmentViewModel
-
 @{
     ViewData["Title"] = "Select Date and Time";
 }
 
 <h2>Please Select Date and Time</h2>
 
-<form asp-action="SelectDateTime" method="post">
+<form id="selectDateTimeForm" asp-action="SelectDateTime" method="post">
     <div>
         <label for="SelectedDateId">Date:</label>
         <select id="SelectedDateId" name="SelectedDateId" class="form-control">
@@ -19,12 +18,33 @@
     <div>
         <label for="SelectedTimeId">Time:</label>
         <select id="SelectedTimeId" name="SelectedTimeId" class="form-control">
-            @foreach (var time in Model.AppointmentTimes)
-            {
-                <option value="@time.AppointmentTimeId">@time.Time.ToString(@"hh\:mm")</option>
-            }
+            <!-- Time options will be dynamically populated based on selected date -->
         </select>
     </div>
     <br>
-    <button style="margin: auto;" type="submit" class="btn btn-primary">Continue</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("SelectedDateId").addEventListener("change", function () {
+            var selectedDateId = this.value;
+
+            // Fetch available times for the selected date using AJAX
+            fetch("/Appointments/GetAppointmentTimes?dateId=" + selectedDateId)
+                .then(response => response.json())
+                .then(data => {
+                    var timeSelect = document.getElementById("SelectedTimeId");
+                    timeSelect.innerHTML = ""; // Clear the current time options
+
+                    // Populate the time options
+                    data.forEach(function (time) {
+                        var option = document.createElement("option");
+                        option.value = time.appointmentTimeId;
+                        option.text = time.time;
+                        timeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error("Error fetching appointment times:", error));
+        });
+    });
+</script>

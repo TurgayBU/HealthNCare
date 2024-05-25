@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthNCare.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240524120320_App")]
+    [Migration("20240524173708_App")]
     partial class App
     {
         /// <inheritdoc />

@@ -184,7 +184,7 @@ namespace HealthNCare.Models
     "Prof.Dr.Elif Şahin",
     "Dr.Kadir Aktaş",
     "Dr.Sevgi Öztürk",
-    "Dr.nur Yıldırım",
+    "Dr.Nur Yıldırım",
     "Dr.Gülşah Arslan",
     // Diğer doktor isimleri buraya eklenecek...
     "Prof.Dr.Ahmet Yılmaz",
@@ -199,63 +199,65 @@ namespace HealthNCare.Models
     "Dr.Barış Güneş",
             };
 
-            foreach (var hospital in hospitals)
-{
-    foreach (var department in departments.Where(d => d.HospitalId == hospital.HospitalId))
-{
-    foreach (var doctorName in doctorNames)
-    {
-        var doctor = new Doctor
-        {
-            DoctorId = Guid.NewGuid().ToString(), // Generate a unique identifier
-            Name = doctorName,
-            Email = $"{doctorName.Replace(" ", "").ToLower()}.{department.Name.Replace(" ", "").ToLower()}@health.com",
-            Password = "abcdef",
-            DepartmentId = department.DepartmentId
-        };
+ // Sabit saat seçenekleri
+// Sabit saat seçenekleri
+foreach (var hospital in hospitals)
+                {
+                    foreach (var department in departments.Where(d => d.HospitalId == hospital.HospitalId))
+                    {
+                        foreach (var doctorName in doctorNames)
+                        {
+                            var doctor = new Doctor
+                            {
+                                DoctorId = Guid.NewGuid().ToString(), // Generate a unique identifier
+                                Name = doctorName,
+                                Email = $"{doctorName.Replace(" ", "").ToLower()}.{department.Name.Replace(" ", "").ToLower()}@health.com",
+                                Password = "abcdef",
+                                DepartmentId = department.DepartmentId
+                            };
 
-        context.Doctors.Add(doctor);
+                            context.Doctors.Add(doctor);
 
-        // Save changes to get the doctor's ID
+                            // Save changes to get the doctor's ID
 
-        // Retrieve the doctor's ID
-        var doctorId = doctor.DoctorId;
+                            // Retrieve the doctor's ID
+                            var doctorId = doctor.DoctorId;
 
-        // Create an appointment date with a unique identifier
-        var appointmentDate = new AppointmentDate
-        {
-            AppointmentDateId = Guid.NewGuid().ToString(), // Generate a unique identifier
-            Date = new DateTime(2024, 5, 20),
-            DoctorId = doctorId
-        };
+                            // Create an appointment date with a unique identifier
+                            foreach (var date in new[] {new DateTime(2024,6,8),new DateTime(2024,6,12) ,new DateTime(2024, 6, 15), new DateTime(2024, 6, 17) }) // 15 Haziran ve 17 Haziran
+                            {
+                                var appointmentDate = new AppointmentDate
+                                {
+                                    AppointmentDateId = Guid.NewGuid().ToString(), // Generate a unique identifier
+                                    Date = date,
+                                    DoctorId = doctorId
+                                };
 
-        context.AppointmentDates.Add(appointmentDate);
+                                context.AppointmentDates.Add(appointmentDate);
 
-        // Save changes to get the appointment date's ID
+                                // Save changes to get the appointment date's ID
 
-        // Retrieve the appointment date's ID
-        var appointmentDateId = appointmentDate.AppointmentDateId;
+                                // Retrieve the appointment date's ID
+                                var appointmentDateId = appointmentDate.AppointmentDateId;
 
-        // Create appointment times
-       foreach (var time in new[] { "10:00", "11:00", "12:00", "14:00", "15:00", "16:00" })
-{
-    var newTime = new AppointmentTime
-    {
-        AppointmentTimeId = Guid.NewGuid().ToString(), // Generate a unique identifier
-        Time = TimeSpan.Parse(time),
-        AppointmentDateId = appointmentDateId
-    };
-    context.AppointmentTimes.Add(newTime);
-}
-
-
-        // Save changes to the context
-        
-    }}}
-    context.SaveChanges();
+                                // Create appointment times
+                                foreach (var time in new[] { "10:00", "11:00", "12:00", "14:00", "15:00", "16:00" })
+                                {
+                                    var newTime = new AppointmentTime
+                                    {
+                                        AppointmentTimeId = Guid.NewGuid().ToString(), // Generate a unique identifier
+                                        Time = TimeSpan.Parse(time),
+                                        AppointmentDateId = appointmentDateId
+                                    };
+                                    context.AppointmentTimes.Add(newTime);
+                                }
+                            }
+                        }
+                    }
                 }
+                context.SaveChanges();
             }
-        
+        }
     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

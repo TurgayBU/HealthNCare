@@ -202,7 +202,18 @@ public class AppointmentsTController : Controller
     return View(viewModel);
 }
 
+[HttpGet]
+    public IActionResult GetAppointmentTimes(string dateId)
+    {
+        // Convert dateId to int or Guid based on your AppointmentDateId type
+        // Retrieve appointment times for the selected date from your database
+        var appointmentTimes = _context.AppointmentTimes
+            .Where(t => t.AppointmentDateId == dateId)
+            .Select(t => new { appointmentTimeId = t.AppointmentTimeId, time = t.Time.ToString(@"hh\:mm") })
+            .ToList();
 
+        return Json(appointmentTimes);
+    }
 
     [HttpPost]
 public async Task<IActionResult> SaveAppointment(ConfirmAppointmentViewModel model)
@@ -241,8 +252,8 @@ public async Task<IActionResult> SaveAppointment(ConfirmAppointmentViewModel mod
             _context.AppointmentRecords.Add(appointmentRecord);
             await _context.SaveChangesAsync(); // HospitalContext üzerinden kaydedin
 
-            TempData["SuccessMessage"] = "Randevunuz başarıyla kaydedildi!";
-            return RedirectToAction("Patientpage", "PatientPageT");
+            TempData["SuccessMessage"] = "Your Appoinment Successfully Added!";
+            return RedirectToAction("Patientpage", "PatientPage");
         }
         else
         {
